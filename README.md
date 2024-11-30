@@ -1,6 +1,9 @@
 <h1 align="center">
   SkyHanni: Mod for Hypixel SkyBlock
 </h1>
+<h1 align="center">
+  SkyHanni but with automatic Wilted Berberis farm
+</h1>
 
 
 <div align="center">
@@ -11,6 +14,7 @@
 [![Made with Kotlin](https://img.shields.io/badge/Made%20With-Kotlin-orange?style=for-the-badge&logo=kotlin&logocolor=white)](https://kotlinlang.org/)
 [![Downloads](https://img.shields.io/github/downloads/hannibal002/SkyHanni/total?label=downloads&color=208a19&logo=github&style=for-the-badge)](https://github.com/hannibal002/SkyHanni/releases)
 </div>
+
 
 ## What it does
 
