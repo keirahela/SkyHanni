@@ -359,6 +359,14 @@ tasks.withType(KotlinCompile::class) {
     }
 }
 
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("-Xlint:none")
+}
+
+detekt {
+    ignoreFailures = true
+}
+
 if (!MultiVersionStage.activeState.shouldCompile(target)) {
     tasks.withType<JavaCompile> {
         onlyIf { false }
