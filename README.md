@@ -1,5 +1,7 @@
 <h1 align="center">
   SkyHanni: Mod for Hypixel SkyBlock
+</h1>
+<h1 align="center">
   SkyHanni but with automatic Wilted Berberis farm
 </h1>
 
