@@ -1,5 +1,6 @@
 <h1 align="center">
   SkyHanni: Mod for Hypixel SkyBlock
+  SkyHanni but with automatic Wilted Berberis farm
 </h1>
 
 
@@ -12,7 +13,6 @@
 [![Downloads](https://img.shields.io/github/downloads/hannibal002/SkyHanni/total?label=downloads&color=208a19&logo=github&style=for-the-badge)](https://github.com/hannibal002/SkyHanni/releases)
 </div>
 
-## SkyHanni but with automatic Wilted Berberis farm
 
 ## What it does
 
