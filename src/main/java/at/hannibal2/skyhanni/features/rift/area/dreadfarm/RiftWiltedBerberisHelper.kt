@@ -24,6 +24,8 @@ import net.minecraft.init.Blocks
 import net.minecraft.util.EnumParticleTypes
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.awt.Color
+import kotlin.math.atan2
+import kotlin.math.sqrt
 import kotlin.time.Duration.Companion.milliseconds
 
 @SkyHanniModule
@@ -40,6 +42,50 @@ object RiftWiltedBerberisHelper {
         var moving = true
         var y = 0.0
         var lastTime = SimpleTimeMark.now()
+    }
+
+    private fun breakWiltedBerberis(target: LorenzVec) {
+        val minecraft = Minecraft.getMinecraft()
+        val player = minecraft.thePlayer
+        val world = minecraft.theWorld
+
+        val blockPos = target.toBlockPos()
+        val blockState = world.getBlockState(blockPos)
+        val block = blockState.block
+
+        if (block != null && block != Blocks.air) {
+            minecraft.playerController.clickBlock(blockPos, player.horizontalFacing)
+        }
+    }
+
+    private fun moveToBerberisSmooth(berberis: WiltedBerberis): Boolean {
+        val player = Minecraft.getMinecraft().thePlayer ?: return false
+
+        val target = berberis.currentParticles
+        val playerPos = LorenzVec(player.posX, player.posY, player.posZ)
+
+        // Calculate direction vector
+        val directionX = target.x - playerPos.x
+        val directionZ = target.z - playerPos.z
+
+        val distanceXZ = sqrt(directionX * directionX + directionZ * directionZ)
+
+        if (distanceXZ < 0.8) {
+            breakWiltedBerberis(target)
+            return true
+        }
+
+        val normalizeFactor = 1.0 / distanceXZ
+        val moveSpeed = 0.2
+        val motionX = directionX * normalizeFactor * moveSpeed
+        val motionZ = directionZ * normalizeFactor * moveSpeed
+
+        player.isSprinting = true
+        player.motionX = motionX
+        player.motionZ = motionZ
+        player.rotationYaw = Math.toDegrees(atan2(-motionX, motionZ)).toFloat()
+
+        return false
     }
 
     @SubscribeEvent
@@ -82,7 +128,13 @@ object RiftWiltedBerberisHelper {
         }
 
         if (berberis == null) {
+            val newBerberis = WiltedBerberis(location)
             list = list.editCopy { add(WiltedBerberis(location)) }
+
+            if (currentTarget == null) {
+                currentTarget = newBerberis
+            }
+
             return
         }
 
@@ -117,6 +169,8 @@ object RiftWiltedBerberisHelper {
         }
     }
 
+    private var currentTarget: WiltedBerberis? = null
+
     @SubscribeEvent
     fun onRenderWorld(event: LorenzRenderWorldEvent) {
         if (!isEnabled()) return
@@ -133,6 +187,9 @@ object RiftWiltedBerberisHelper {
                 if (!moving) {
                     event.drawFilledBoundingBoxNea(axisAlignedBB(location), Color.YELLOW, 0.7f)
                     event.drawDynamicText(location.up(), "§eWilted Berberis", 1.5, ignoreBlocks = false)
+
+                    moveToBerberisSmooth(this)
+
                 } else {
                     event.drawFilledBoundingBoxNea(axisAlignedBB(location), Color.WHITE, 0.5f)
                     previous?.fixLocation(berberis)?.let {
