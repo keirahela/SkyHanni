@@ -12,6 +12,8 @@
 [![Downloads](https://img.shields.io/github/downloads/hannibal002/SkyHanni/total?label=downloads&color=208a19&logo=github&style=for-the-badge)](https://github.com/hannibal002/SkyHanni/releases)
 </div>
 
+## SkyHanni but with automatic Wilted Berberis farm
+
 ## What it does
 
 SkyHanni is a Forge mod for Minecraft 1.8.9 that adds many useful features to [Hypixel SkyBlock](https://wiki.hypixel.net/Main_Page). With SkyHanni you have access to:
